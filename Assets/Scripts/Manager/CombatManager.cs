@@ -22,6 +22,24 @@ public class CombatManager : MonoBehaviour {
         var playerManager = new PlayerManager(0, groundMask, entityMask, selectionBoxUI, canvas);
         armyManagers.Add(playerManager);
         armyManagers.Add(new ArmyManager(1));
+
+        Vector3[] spawnPositions = {
+            new Vector3(10, 0.5f, 10),
+            new Vector3(10, 0.5f, -10),
+            new Vector3(-10, 0.5f, -10),
+            new Vector3(-10, 0.5f, 10)
+        };
+        foreach (Vector3 pos in spawnPositions) {
+            armyManagers[1].TrySpawnArmy(armyPrefab, pos);
+        }
+    }
+
+    void OnEnable() {
+        Army.OnArmyMoveComplete += HandleSingleTargeting;
+    }
+
+    void OnDisable() {
+        Army.OnArmyMoveComplete -= HandleSingleTargeting;
     }
 
     void Update() {
@@ -46,19 +64,29 @@ public class CombatManager : MonoBehaviour {
         }
     }
 
-    public void AssignNearestTargets() {
-        foreach (ArmyManager manager in armyManagers) {
-            foreach (Army self in manager.GetArmyList()) {
-                List<Army> enemies = new List<Army>();
-                foreach (ArmyManager otherManager in armyManagers) {
-                    if (otherManager == manager) continue;
-                    enemies.AddRange(otherManager.GetArmyList());
-                }
-                Army nearest = manager.GetNearestEnemy(self.transform.position, enemies);
-                if (nearest != null) {
-                    // later: self.SetTarget(nearest);
-                }
-            }
+    /// <summary>
+    /// Find closest enemy army and set it as the target.
+    /// </summary>
+    /// <param name="army">The army that finished moving.</param>
+    /// <param name="playerNumber">The player number of the army.</param>
+    void HandleSingleTargeting(Army army, int playerNumber) {
+        Vector3 pos = army.transform.position;
+        Army nearest = null;
+        float minDist = float.MaxValue;
+        foreach (var manager in armyManagers) {
+            if (manager.playerNumber == playerNumber) continue;
+            Army candidate = manager.GetNearestEnemy(pos);
+            if (candidate == null) continue;
+            float dist = Vector3.Distance(pos, candidate.transform.position);
+            if (dist < minDist) { minDist = dist; nearest = candidate; }
         }
+        if (nearest != null) { army.SetTarget(nearest); }
+    }
+
+    private ArmyManager managerWith(int playerNumber) {
+        foreach (var m in armyManagers)
+            if (m.playerNumber == playerNumber)
+                return m;
+        return null;
     }
 }

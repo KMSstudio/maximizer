@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +15,7 @@ public class ArmyManager {
         if (army != null) {
             armyList.Add(army);
             army.type = (playerNumber == 0) ? Army.ArmyType.Entity : Army.ArmyType.Enemy;
+            army.playerNumber = playerNumber;
         }
     }
 
@@ -35,16 +35,12 @@ public class ArmyManager {
         }
     }
 
-    public Army GetNearestEnemy(Vector3 position, List<Army> others) {
+    public Army GetNearestEnemy(Vector3 position) {
         Army closest = null;
         float closestDist = float.MaxValue;
-
-        foreach (Army other in others) {
+        foreach (Army other in armyList) {
             float dist = Vector3.Distance(position, other.transform.position);
-            if (dist < closestDist) {
-                closestDist = dist;
-                closest = other;
-            }
+            if (dist < closestDist) { closestDist = dist; closest = other; }
         }
         return closest;
     }
