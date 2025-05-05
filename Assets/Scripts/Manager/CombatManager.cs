@@ -5,13 +5,18 @@ using System.Collections.Generic;
 public class CombatManager : MonoBehaviour {
     public static CombatManager Instance { get; private set; }
 
+    [Header("Prefab Settings")]
     public GameObject armyPrefab;
 
+    [Header("UI Components")]
     public RectTransform selectionBoxUI;
     public Canvas canvas;
+
+    [Header("Raycast Layers")]
     public LayerMask groundMask;
     public LayerMask entityMask;
 
+    [Header("Army Managers")]
     public List<ArmyManager> armyManagers = new List<ArmyManager>();
     public PlayerManager playerManager => armyManagers[0] as PlayerManager;
 

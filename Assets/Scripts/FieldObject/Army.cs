@@ -2,37 +2,30 @@ using System;
 using UnityEngine;
 
 /// <summary>
-/// Represents a controllable or enemy army unit.
-/// Handles color, selection, and move-completion event.
+/// General Class for Army. Someting Moving in FIeld
 /// </summary>
-public class Army : GeneralArmy {
+public class Army : MonoBehaviour {
     public enum ArmyType { Entity, Enemy }
 
-    [Header("Type & Color")]
+    [Header("Base Properties")]
     public ArmyType type = ArmyType.Entity;
-    public Color entityColor = Color.white;
-    public Color selectedColor = Color.yellow;
-    public Color enemyColor = Color.red;
-
-    [HideInInspector] public bool isSelected = false;
-
     public int playerNumber;
+
+    public bool isSelected = false;
 
     public static event Action<Army, int> OnArmyMoveComplete;
 
     private Army currentTarget;
 
-    protected override void UpdateColor() {
-        if (rend == null) return;
-
-        if (type == ArmyType.Entity) {
-            rend.material.color = isSelected ? selectedColor : entityColor;
-        } else if (type == ArmyType.Enemy) {
-            rend.material.color = enemyColor;
-        }
+    protected virtual void Start() {
+        // ...
     }
 
-    public override void MoveTo(Vector3 target) {
+    protected virtual void Update() {
+        // ...
+    }
+
+    public virtual void MoveTo(Vector3 target) {
         Vector3 adjustedTarget = target + new Vector3(0f, 0.5f, 0f);
         StopAllCoroutines();
         StartCoroutine(MoveSmoothAndNotify(adjustedTarget));
@@ -47,7 +40,11 @@ public class Army : GeneralArmy {
         OnArmyMoveComplete?.Invoke(this, playerNumber);
     }
 
-    public void SetTarget(Army target) {
+    public virtual void TakeDamage(float amount) {
+        // ...
+    }
+
+    public virtual void SetTarget(Army target) {
         currentTarget = target;
         Debug.Log($"Target set to: {target.name} at position {target.transform.position}");
     }

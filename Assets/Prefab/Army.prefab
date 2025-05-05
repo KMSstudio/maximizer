@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7439460286528110873}
   - component: {fileID: 2709747509702418670}
   - component: {fileID: 5172697481947031453}
-  - component: {fileID: -6589866544919238372}
+  - component: {fileID: 750052832310968366}
   m_Layer: 9
   m_Name: Army
   m_TagString: Untagged
@@ -139,7 +139,7 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-6589866544919238372
+--- !u!114 &750052832310968366
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -148,11 +148,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4892440854852712425}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b1348ae90040f44b9beef17b6e3dd23, type: 3}
+  m_Script: {fileID: 11500000, guid: abb475c7fb299054f9ad9b3fe207206b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
+  playerNumber: 0
+  isSelected: 0
   entityColor: {r: 1, g: 1, b: 1, a: 1}
   selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   enemyColor: {r: 1, g: 0, b: 0, a: 1}
-  isSelected: 0
