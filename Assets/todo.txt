@@ -1,0 +1,15 @@
+# Maximizer
+
+<Base>
+Entity 생성시 자원 소비
+Entity가 서로 겹칠 수 없도록 변경
+자원량이 화면에 보이도록
+Ground를 여러 타일로 제작
+
+<Structure>
+Structure 제작
+Structure를 선택 시에 Entity 생성 창이 나오도록 변경 
+
+<Enemy>
+Entity의 공격 메커니즘 제작
+Enemy 제작.

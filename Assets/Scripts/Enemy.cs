@@ -1,28 +1,21 @@
 using UnityEngine;
-using UnityEngine.AI;
 
-public class Entity : MonoBehaviour
-{
-    public bool isSelected = false;
+public class Enemy : MonoBehaviour {
     private Renderer rend;
-    private Color defaultColor;
-    public Color selectedColor = Color.yellow;
+    private Color defaultColor = Color.red;
 
     void Start() {
-        // rend = GetComponent<Renderer>();
         rend = GetComponentInChildren<Renderer>();
-        if (rend == null) { Debug.LogWarning("Renderer not found on Entity or children."); }
-        else { defaultColor = rend.material.color; }
+        if (rend == null) { Debug.LogWarning("Renderer not found on Enemy or children."); }
+        else { rend.material.color = defaultColor; }
     }
 
     void Update() {
-        rend.material.color = isSelected ? selectedColor : defaultColor;
+        // In future: Add AI behavior
     }
 
     public void MoveTo(Vector3 target) {
-        // $$$$ Temporary Coordinate Adj
         Vector3 adjustedTarget = target + new Vector3(0f, 0.5f, 0f);
-
         StopAllCoroutines();
         StartCoroutine(MoveSmooth(adjustedTarget));
     }
@@ -32,5 +25,9 @@ public class Entity : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, target, 5f * Time.deltaTime);
             yield return null;
         }
+    }
+
+    public void TakeDamage(float amount) {
+        // Placeholder for damage logic
     }
 }
